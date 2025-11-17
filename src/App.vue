@@ -61,7 +61,9 @@
     </ul>
     <div>
       <input type="text" v-model="beverageStore.currentName" placeholder="Beverage Name">
-      <button @click="beverageStore.makeBeverage(beverageStore.currentName, beverageStore.currentTemp, beverageStore.currentBase, beverageStore.currentCreamer, beverageStore.currentSyrup)">Make Beverage</button>
+      <button @click="beverageStore.makeBeverage(beverageStore.currentName, beverageStore.currentTemp, beverageStore.currentBase, beverageStore.currentCreamer, beverageStore.currentSyrup)"
+      :disabled="!beverageStore.currentBase || !beverageStore.currentCreamer || !beverageStore.currentSyrup || !beverageStore.currentTemp || !beverageStore.currentName"
+      >Make Beverage</button>
     </div>
     <div id="beverage-container">
       <ul>
@@ -73,7 +75,7 @@
                 :id="`r${bev.id}`"
                 :value="bev"
                 @change="beverageStore.showBeverage(bev)"
-                v-model="beverageStore.currentBev"
+                v-model="beverageStore.currentBeverage"
               />
             <label :for="bev.id">
               {{ bev.name }}

@@ -89,26 +89,29 @@ export const useBeverageStore = defineStore("BeverageStore", {
         });
       })
     },
-    makeBeverage(name: string, temp: string, base: BaseBeverageType, creamer: CreamerType, syrup: SyrupType) {
-      const index = this.beverages.findIndex(bev => bev.id === (base.id + "-" + creamer.id + "-" + syrup.id + "-" + name));
-      if(index === -1) {
-        var currentBev: BeverageType = {
-          id: base.id + "-" + creamer.id + "-" + syrup.id + "-" + name,
-          name: name,
-          temp: temp,
-          base: base,
-          syrup: syrup,
-          creamer: creamer,
+    makeBeverage(name: string | null, temp: string | null, base: BaseBeverageType | null, creamer: CreamerType | null, syrup: SyrupType | null) {
+      if(!name || !temp || !base || !creamer || !syrup){}
+      else{
+        const index = this.beverages.findIndex(bev => bev.id === (base.id + "-" + creamer.id + "-" + syrup.id + "-" + name));
+        if(index === -1) {
+          var currentBev: BeverageType = {
+            id: base.id + "-" + creamer.id + "-" + syrup.id + "-" + name,
+            name: name,
+            temp: temp,
+            base: base,
+            syrup: syrup,
+            creamer: creamer,
+          }
+          const bev = doc(db, "beverages", currentBev.id);
+          setDoc(bev, { name: name,
+            temp: temp,
+            base: base,
+            syrup: syrup,
+            creamer: creamer,})
+          .catch((err: any) => {console.log(err)});
         }
-        const bev = doc(db, "beverages", currentBev.id);
-        setDoc(bev, { name: name,
-          temp: temp,
-          base: base,
-          syrup: syrup,
-          creamer: creamer,})
-        .catch((err: any) => {console.log(err)});
+        else {currentBev = this.beverages[index]}
       }
-      else {currentBev = this.beverages[index]}
     },
 
     showBeverage(b: BeverageType) {
