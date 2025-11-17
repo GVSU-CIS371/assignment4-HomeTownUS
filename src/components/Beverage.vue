@@ -1,6 +1,6 @@
 <template>
   <Mug>
-    <Cold v-if="isIced" />
+    <Cold v-if="beverageStore.currentTemp ==='Cold'" />
     <Hot v-else />
     <Contents>
       <template v-slot:top>
@@ -28,8 +28,4 @@ import { useBeverageStore } from "../stores/beverageStore";
 
 const beverageStore = useBeverageStore();
 
-type Props = {
-  isIced: boolean;
-};
-defineProps<Props>();
 </script>
